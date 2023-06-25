@@ -1,3 +1,5 @@
+package main;
+
 public class RentalCalculator {
 
     public static double calculateAmount(MovieRental rental, MovieCatalog movieCatalog) {

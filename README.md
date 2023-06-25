@@ -15,7 +15,7 @@ Note: the Git history must be included.
 
 ```
 javac src/*.java
-java -cp src Main
+java -cp src main.Main
 ```
 
 ### **Single Responsibility Principle (SRP): Each class should have a single responsibility.**
@@ -69,3 +69,4 @@ RentalInfo.java:
   Extracted the movie information dependency into a MovieCatalog class and passed an instance of this class 
   to the RentalInfo class.
 ```
+### I have also added Unit Test Cases for every class in the project. 

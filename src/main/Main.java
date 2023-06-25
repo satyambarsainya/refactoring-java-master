@@ -1,3 +1,5 @@
+package main;
+
 import java.util.Arrays;
 
 public class Main {
@@ -8,7 +10,7 @@ public class Main {
     MovieCatalog movieCatalog = new MovieCatalog();
     movieCatalog.addMovie("F001", new Movie("You've Got Mail", "regular"));
     movieCatalog.addMovie("F002", new Movie("Matrix", "regular"));
-    movieCatalog.addMovie("F003", new Movie("Cars", "childrens"));
+    movieCatalog.addMovie("F003", new Movie("Cars", "children"));
     movieCatalog.addMovie("F004", new Movie("Fast & Furious X", "new"));
 
     RentalInfo rentalInfo = new RentalInfo(movieCatalog);

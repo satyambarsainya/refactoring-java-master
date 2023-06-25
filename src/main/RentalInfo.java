@@ -1,3 +1,5 @@
+package main;
+
 public class RentalInfo {
 
   private final MovieCatalog movieCatalog;
