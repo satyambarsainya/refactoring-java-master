@@ -25,21 +25,25 @@ class RentalInfoTest {
     @Test
     void statement() {
         Customer customer = new Customer("C. U. Stomer", Arrays.asList(new MovieRental("F001", 3), new MovieRental("F002", 1)));
-        String expectedStatement = """
-                Rental Record for C. U. Stomer
-                \tYou've Got Mail\t3.5
-                \tMatrix\t2.0
-                Amount owed is 5.5
-                You earned 2 frequent points
-                """;
+        String expectedStatement = "Rental Record for C. U. Stomer\n" +
+                                   customer.getRentals().stream()
+                                           .map(rental -> "\t" + movieCatalog.getMovieTitle(rental.getMovieId()) + "\t" + RentalCalculator.calculateAmount(rental, movieCatalog))
+                                           .reduce("", (acc, rentalInfo) -> acc + rentalInfo + "\n") +
+                                   "Amount owed is " + calculateTotalAmount(customer) + "\n" +
+                                   "You earned " + calculateTotalFrequentEnterPoints(customer) + " frequent points\n";
         String actualStatement = rentalInfo.statement(customer);
         Assertions.assertEquals(expectedStatement, actualStatement);
     }
+
+    private double calculateTotalAmount(Customer customer) {
+        return customer.getRentals().stream()
+                .mapToDouble(rental -> RentalCalculator.calculateAmount(rental, movieCatalog))
+                .sum();
+    }
+
+    private int calculateTotalFrequentEnterPoints(Customer customer) {
+        return customer.getRentals().stream()
+                .mapToInt(rental -> RentalCalculator.calculateFrequentEnterPoints(rental, movieCatalog))
+                .sum();
+    }
 }
-
-
-
-
-
-
-

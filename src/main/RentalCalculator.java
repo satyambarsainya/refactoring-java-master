@@ -7,18 +7,16 @@ public class RentalCalculator {
 
         String movieCode = movieCatalog.getMovieCode(rental.getMovieId());
 
-        if (movieCode.equals("regular")) {
-            amount = 2;
-            if (rental.getDays() > 2) {
-                amount += (rental.getDays() - 2) * 1.5;
-            }
-        } else if (movieCode.equals("new")) {
-            amount = rental.getDays() * 3;
-        } else if (movieCode.equals("children")) {
-            amount = 1.5;
-            if (rental.getDays() > 3) {
-                amount += (rental.getDays() - 3) * 1.5;
-            }
+        switch (movieCode) {
+            case "regular":
+                amount = 2 + Math.max(0, rental.getDays() - 2) * 1.5;
+                break;
+            case "new":
+                amount = rental.getDays() * 3;
+                break;
+            case "children":
+                amount = 1.5 + Math.max(0, rental.getDays() - 3) * 1.5;
+                break;
         }
 
         return amount;

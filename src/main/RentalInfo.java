@@ -1,30 +1,29 @@
 package main;
 
+import java.util.stream.Collectors;
+
 public class RentalInfo {
 
-  private final MovieCatalog movieCatalog;
+    private final MovieCatalog movieCatalog;
 
-  public RentalInfo(MovieCatalog movieCatalog) {
-    this.movieCatalog = movieCatalog;
-  }
-
-  public String statement(Customer customer) {
-    double totalAmount = 0;
-    int frequentEnterPoints = 0;
-    String result = "Rental Record for " + customer.getName() + "\n";
-
-    for (MovieRental r : customer.getRentals()) {
-      double thisAmount = RentalCalculator.calculateAmount(r, movieCatalog);
-
-      frequentEnterPoints += RentalCalculator.calculateFrequentEnterPoints(r, movieCatalog);
-
-      result += "\t" + movieCatalog.getMovieTitle(r.getMovieId()) + "\t" + thisAmount + "\n";
-      totalAmount += thisAmount;
+    public RentalInfo(MovieCatalog movieCatalog) {
+        this.movieCatalog = movieCatalog;
     }
 
-    result += "Amount owed is " + totalAmount + "\n";
-    result += "You earned " + frequentEnterPoints + " frequent points\n";
+    public String statement(Customer customer) {
+        double totalAmount = customer.getRentals().stream()
+                .mapToDouble(r -> RentalCalculator.calculateAmount(r, movieCatalog))
+                .sum();
 
-    return result;
-  }
+        int frequentEnterPoints = customer.getRentals().stream()
+                .mapToInt(r -> RentalCalculator.calculateFrequentEnterPoints(r, movieCatalog))
+                .sum();
+
+        return "Rental Record for " + customer.getName() + "\n" +
+               customer.getRentals().stream()
+                       .map(r -> "\t" + movieCatalog.getMovieTitle(r.getMovieId()) + "\t" + RentalCalculator.calculateAmount(r, movieCatalog))
+                       .collect(Collectors.joining("\n")) +
+               "\nAmount owed is " + totalAmount + "\n" +
+               "You earned " + frequentEnterPoints + " frequent points\n";
+    }
 }

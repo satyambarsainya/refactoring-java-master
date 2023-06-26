@@ -69,4 +69,5 @@ RentalInfo.java:
   Extracted the movie information dependency into a MovieCatalog class and passed an instance of this class 
   to the RentalInfo class.
 ```
-### I have also added Unit Test Cases for every class in the project. 
+### I have also added Unit Test Cases for every class in the project.
+### I have made use of Java 8 wherever possible
